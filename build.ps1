@@ -14,6 +14,7 @@ if($Help)
     Write-Host ""
     Write-Host "Options:"
     Write-Host "  -Configuration <CONFIGURATION>     Build the specified Configuration (Debug or Release, default: Debug)"
+    Write-Host "  -Runtime <RID>                     Build for the specified rid (default: win7-x86)"
     Write-Host "  -Help                              Display this help message"
     exit 0
 }
@@ -134,7 +135,7 @@ $x = PWD
 # Restore
 Write-Host "Restoring dotnet new3..."
 cd "$RepoRoot\src\dotnet-new3"
-& dotnet msbuild /t:Restore "/p:RuntimeIdentifier=win7-x86;TargetFramework=netcoreapp1.1;RestoreRecursive=False;PackageVersion=$TimestampPackageVersion"
+& dotnet msbuild /t:Restore "/p:RuntimeIdentifier=$Runtime;TargetFramework=netcoreapp1.1;RestoreRecursive=False;PackageVersion=$TimestampPackageVersion"
 if ($LastExitCode -ne 0)
 {
     exit $LastExitCode
