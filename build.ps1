@@ -6,6 +6,7 @@
 param(
     [string]$Configuration="Debug",
     [string]$Runtime="win7-x86",
+    [switch]$SkipBuild,
     [switch]$Help)
 
 if($Help)
@@ -14,6 +15,7 @@ if($Help)
     Write-Host ""
     Write-Host "Options:"
     Write-Host "  -Configuration <CONFIGURATION>     Build the specified Configuration (Debug or Release, default: Debug)"
+    Write-Host "  -SkipBuild                         Only initialize tooling and skip product build"
     Write-Host "  -Help                              Display this help message"
     exit 0
 }
@@ -111,6 +113,12 @@ $NoTimestampPackageVersion=$env:PACKAGE_VERSION
 if (-not $env:BUILD_QUALITY)
 {
   $env:BUILD_QUALITY = "beta1"
+}
+
+if($SkipBuild)
+{
+  Write-Host "Skipping product build..."
+  exit 0
 }
 
 $NoTimestampPackageVersion=$env:PACKAGE_VERSION + "-" + $env:BUILD_QUALITY

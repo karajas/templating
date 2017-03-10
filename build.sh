@@ -57,6 +57,10 @@ while [[ $# > 0 ]]; do
             export RID=$2
             shift
             ;;
+        --skip-build)
+            SKIP_BUILD=1
+            shift
+            ;;
         --help)
             echo "Usage: $0 [--configuration <CONFIGURATION>] [--help]"
             echo ""
@@ -107,6 +111,10 @@ for projectToTest in ${TESTPROJECTS[@]}
 do
     dotnet restore "$REPOROOT/test/$projectToTest/$projectToTest.csproj"
 done
+
+if [ "$SKIP_BUILD" == "1"]; then
+  exit 0
+fi
 
 length=${#PROJECTSTOPACK[@]}
 for (( i=0; i<${length} ; i++ ));
